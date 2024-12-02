@@ -1,0 +1,43 @@
+name: Despliegue con Terraform y actualización de S3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  despliegue:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v3
+
+    - name: Configurar Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Configurar credenciales AWS
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        aws-region: us-east-2
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Inicializar Terraform
+      run: terraform init
+
+    - name: Validar Terraform
+      run: terraform validate
+
+    - name: Planificar cambios de Terraform
+      run: terraform plan -out=tfplan
+
+    - name: Aplicar cambios de Terraform
+      run: terraform apply -auto-approve tfplan
+
+    - name: Actualizar contenido en S3
+      run: |
+        aws s3 sync ./dist s3://mi-bucket-terraform --delete
+        
+    - name: Limpiar planificado
+      run: terraform show tfplan > tfstate.txt
