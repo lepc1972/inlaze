@@ -150,4 +150,43 @@ Este pipeline está diseñado para automatizar el flujo de trabajo cuando un des
 
 De esta forma, los cambios en el código fuente se reflejan rápidamente en el entorno de despliegue, manteniendo una integración y entrega continua.
 
+# Inlaze 3 SOLUCION DE PROBLEMAS
+
+## Contenedores en Ejecución
+
+Durante la implementación, se utilizaron los siguientes contenedores, cada uno con un propósito específico:
+
+| **CONTAINER ID** | **IMAGEN**             | **PUERTOS**                              | **NOMBRE**                     | **PROPÓSITO**                  |
+|------------------|------------------------|------------------------------------------|--------------------------------|--------------------------------|
+| 4c91320238ff     | nginx:latest          | 0.0.0.0:8080->80/tcp                     | dockercompose-app-1            | Servidor web para servir la aplicación. |
+| 641e060a3f1e     | postgres:alpine       | 0.0.0.0:5432->5432/tcp                   | dockercompose-database-1       | Base de datos PostgreSQL.      |
+| ce392d6adb1d     | redis                 | 0.0.0.0:6379->6379/tcp                   | dockercompose-redis-1          | Cache usando Redis.            |
+| 41f73ccb8240     | kicbase/stable:v0.0.45 | Varios puertos mapeados en 127.0.0.1     | minikube                       | Nodo principal para ejecutar Minikube. |
+
+Estos contenedores forman parte del entorno necesario para pruebas y despliegues locales. A continuación, se describen brevemente sus funciones:
+
+1. **dockercompose-app-1 (nginx)**: Servidor web para servir la aplicación web a través del puerto `8080`.
+2. **dockercompose-database-1 (PostgreSQL)**: Contenedor que ejecuta la base de datos PostgreSQL, accesible en el puerto `5432`.
+3. **dockercompose-redis-1 (Redis)**: Contenedor para manejo de caché, mapeado al puerto `6379`.
+4. **minikube**: Nodo principal de Minikube, que permite la gestión y ejecución de clústeres de Kubernetes localmente.
+
+Este entorno permite un flujo integrado de desarrollo, pruebas y despliegue.
+
+Este es el yaml proporcionado, el cual como se ve, despliega tres servicios sin problema.
+
+Se agrega el nuevo yml con algunas correcciones, y un .env con variables de entorno
+
+## Cambios y Mejoras
+
+1. **Uso de Variables de Entorno**  
+   Se implementaron variables de entorno para manejar valores sensibles como credenciales y configuraciones, garantizando mayor seguridad y flexibilidad.
+
+2. **Volumen para Redis**  
+   Se agregó un volumen persistente para el servicio Redis, asegurando la persistencia de datos incluso si el contenedor se reinicia.
+
+3. **Configuración Simplificada de PostgreSQL**  
+   La configuración de PostgreSQL se simplificó mediante el uso de variables de entorno, facilitando la personalización y el despliegue.
+
+4. **Estructura Mantenida**  
+   Se preservó la estructura general del archivo, manteniendo la legibilidad y organización del proyecto.
 

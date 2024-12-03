@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  app:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+    depends_on:
+      - database
+    networks:
+      - app_network
+
+  database:
+    image: postgres:alpine
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password123}
+      POSTGRES_DB: ${POSTGRES_DB:-my_database}
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+
+  redis:
+    image: redis
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redispass123}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  pg_data:
+  redis_data:
+
+networks:
+  app_network:
+    driver: bridge
