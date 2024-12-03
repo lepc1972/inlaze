@@ -140,4 +140,14 @@ Este archivo configura un pipeline de **GitHub Actions** que automatiza la sincr
 - Se activa mediante un evento `push` en el repositorio.
 - Refleja automáticamente los cambios en el servidor Argo CD, actualizando el clúster local.
 
+## Descripción Breve del Pipeline
+
+Este pipeline está diseñado para automatizar el flujo de trabajo cuando un desarrollador realiza un cambio en el repositorio local en cualquier rama en la que esté trabajando. 
+
+1. **Detección del Cambio**: Un webhook monitorea el repositorio y detecta cualquier cambio en un evento `push`.
+2. **Comunicación con Argo CD**: Al notar un cambio, el webhook se comunica automáticamente con el servidor Argo CD.
+3. **Sincronización y Despliegue**: Argo CD, gracias a su configuración, utiliza el archivo `argo.yaml` que apunta al manifiesto del repositorio. Esto permite sincronizar los cambios y realizar el despliegue actualizado en el clúster de Kubernetes.
+
+De esta forma, los cambios en el código fuente se reflejan rápidamente en el entorno de despliegue, manteniendo una integración y entrega continua.
+
 
