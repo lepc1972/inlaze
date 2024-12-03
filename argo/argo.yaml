@@ -1,0 +1,12 @@
+project: default
+source:
+  repoURL: https://github.com/lepc1972/frontend-challenge-lepc.git
+  path: k8
+  targetRevision: HEAD
+destination:
+  server: https://kubernetes.default.svc
+  namespace: default
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-desafio-deployment
+  labels:
+    app: front-desafio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-desafio
+  template:
+    metadata:
+      labels:
+        app: front-desafio
+    spec:
+      containers:
+        - name: front-desafio
+          image: lepc72/frontend-challenge-lepc
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-desafio-service
+spec:
+  selector:
+    app: front-desafio
+ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30000

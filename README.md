@@ -1,4 +1,4 @@
-# inlaze 1 parte infraestructura
+# inlaze 1 parte DISEÑO INFRAESTRUCTURA
 
 
 ![terraform](https://github.com/user-attachments/assets/6421dbcb-b73b-4cc8-bc1c-cfd75ac25705)
@@ -111,7 +111,33 @@ actual.
 ### El comando terraform apply es uno de los comandos más importantes en Terraform. Se utiliza para aplicar los cambios que has definido 
 en tu configuración y crear, modificar o eliminar recursos en tu infraestructura.
 
+# inlaze 2  IMPLEMENTAR PIPELINE
 
+# Desafío: Implementación de Argo CD en Minikube
 
+## Descripción del Proyecto
+Este repositorio contiene los archivos necesarios para la segunda parte del desafío técnico. En esta etapa, configuramos un servidor **Argo CD** para realizar el despliegue y la sincronización automática de una aplicación utilizando **Minikube**.
+
+Minikube es una herramienta que facilita la ejecución de un clúster local de Kubernetes, ideal para pruebas y desarrollo. En este proyecto, Argo CD fue implementado localmente en Minikube y configurado para sincronizar automáticamente los cambios del repositorio con el clúster.
+
+---
+
+## Archivos Subidos
+
+### `argo.yaml`
+Este archivo contiene la configuración principal del servidor de **Argo CD**.
+- Define cómo se conecta el servidor Argo CD al repositorio.
+- Apunta al archivo de manifiesto del repositorio para realizar despliegues o sincronizar la aplicación.
+- Está configurado para la sincronización automática y la eliminación de recursos obsoletos.
+
+### `repomanifiesto.yaml`
+Este archivo es el manifiesto que describe los recursos de Kubernetes necesarios para la aplicación, como Pods, Servicios o ConfigMaps.
+- Se encuentra dentro del repositorio que se clonó en este proyecto.
+- Es utilizado por Argo CD para gestionar y desplegar los recursos en el clúster local de Kubernetes.
+
+### `githubactionfile.yaml`
+Este archivo configura un pipeline de **GitHub Actions** que automatiza la sincronización de los cambios en el repositorio con Argo CD.
+- Se activa mediante un evento `push` en el repositorio.
+- Refleja automáticamente los cambios en el servidor Argo CD, actualizando el clúster local.
 
 

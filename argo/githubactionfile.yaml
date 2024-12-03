@@ -1,0 +1,22 @@
+name: Trigger ArgoCD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  trigger-argocd:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Trigger ArgoCD webhook
+      uses: actions/http-post@v1
+      with:
+        url: https://argocd-server.argocd.svc.cluster.local/api/webhook
+        json: |
+          {
+            "event": "push",
+            "ref": "${{ github.ref }}",
+            "repository": {
+              "full_name": "${{ github.repository }}"
+            }
